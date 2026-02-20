@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bad Bunny — Debí Tirar Más Fotos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=DM+Sans:wght@300;400;500&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream:  #F0EBD5;
+      --warm:   #E2D4A8;
+      --orange: #E8722A;
+      --rust:   #C04B1A;
+      --green:  #2D6A4F;
+      --green2: #40916C;
+      --green3: #74C69D;
+      --sand:   #D4B483;
+      --dark:   #0F1F14;
+      --text:   #1A2E1E;
+      --muted:  #5A7A60;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--cream); color:var(--text); font-family:'DM Sans',sans-serif; overflow-x:hidden; }
+
+    /* grain */
+    body::after {
+      content:''; position:fixed; inset:0; pointer-events:none; z-index:9999; opacity:.4;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    }
+
+    /* ── NAV ── */
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:500;
+      padding:18px 48px;
+      display:flex; align-items:center; justify-content:space-between;
+      transition:background .35s, box-shadow .35s;
+    }
+    nav.scrolled { background:rgba(240,235,213,.97); box-shadow:0 1px 0 rgba(0,0,0,.08); backdrop-filter:blur(8px); }
+    nav.scrolled .nav-links a { color:var(--text); }
+    .nav-logo { font-family:'Caveat',cursive; font-size:1.8rem; font-weight:700; color:var(--green3); }
+    .nav-links { display:flex; gap:32px; list-style:none; }
+    .nav-links a { font-size:.88rem; font-weight:500; color:var(--cream); text-decoration:none; padding-bottom:3px; position:relative; }
+    .nav-links a::after { content:''; position:absolute; left:0; bottom:0; width:0; height:2px; background:var(--green3); transition:width .3s; }
+    .nav-links a:hover::after { width:100%; }
+    @media(max-width:768px){ nav{padding:14px 20px} .nav-links{display:none} }
+
+    /* ── HERO ── */
+    #hero { position:relative; height:100vh; min-height:580px; display:flex; align-items:flex-end; overflow:hidden; }
+    .hero-video-wrap { position:absolute; inset:0; z-index:0; }
+    .hero-video-wrap iframe {
+      position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+      width:100vw; height:56.25vw; min-height:100vh; min-width:177.78vh;
+      pointer-events:none;
+      filter:saturate(1.2) brightness(.55) sepia(.3);
+    }
+    .hero-overlay {
+      position:absolute; inset:0; z-index:1;
+      background:
+        radial-gradient(ellipse at 30% 60%, rgba(45,106,79,.25) 0%, transparent 60%),
+        linear-gradient(to top, rgba(15,31,20,.97) 0%, rgba(15,31,20,.3) 50%, rgba(15,31,20,.1) 100%);
+    }
+
+    .hero-content {
+      position:relative; z-index:2;
+      padding:0 6vw 80px; max-width:660px;
+      animation:riseUp 1.4s cubic-bezier(.16,1,.3,1) both;
+    }
+    @keyframes riseUp { from{opacity:0;transform:translateY(50px)} to{opacity:1;transform:translateY(0)} }
+
+    .hero-eyebrow { font-family:'Caveat',cursive; font-size:1.3rem; color:var(--green3); display:block; margin-bottom:10px; }
+    .hero-title { font-family:'Playfair Display',serif; font-style:italic; font-size:clamp(3rem,8vw,7rem); color:var(--cream); line-height:.93; margin-bottom:8px; }
+    .hero-title em { font-style:normal; color:var(--green3); }
+    .hero-sub { font-family:'Caveat',cursive; font-size:1.35rem; color:var(--green3); margin-bottom:24px; }
+    .hero-desc { color:rgba(245,237,216,.75); font-size:.98rem; line-height:1.8; max-width:450px; margin-bottom:32px; }
+
+    .btn-main {
+      display:inline-block; background:var(--green2); color:#fff;
+      font-weight:500; font-size:.9rem; padding:14px 32px;
+      border-radius:50px; text-decoration:none;
+      box-shadow:0 4px 20px rgba(64,145,108,.45);
+      transition:background .25s, transform .25s, box-shadow .25s;
+    }
+    .btn-main:hover { background:var(--green); transform:translateY(-2px); box-shadow:0 8px 30px rgba(45,106,79,.5); }
+
+    /* polaroids */
+    .polaroids {
+      position:absolute; z-index:2; right:6vw; top:50%; transform:translateY(-50%);
+      display:flex; flex-direction:column; gap:18px;
+      animation:floatIn 1.8s cubic-bezier(.16,1,.3,1) .3s both;
+    }
+    @keyframes floatIn { from{opacity:0;transform:translateY(-40%) translateX(40px)} to{opacity:1;transform:translateY(-50%) translateX(0)} }
+    .pol { background:#fff; padding:10px 10px 30px; box-shadow:0 12px 40px rgba(0,0,0,.4); width:148px; }
+    .pol:nth-child(1){transform:rotate(-3deg)}
+    .pol:nth-child(2){transform:rotate(2.5deg);margin-left:18px}
+    .pol:nth-child(3){transform:rotate(-1.5deg)}
+    .pol-img { width:100%; aspect-ratio:1; background:var(--sand); display:flex; align-items:center; justify-content:center; font-size:2rem; }
+    .pol-cap { font-family:'Caveat',cursive; font-size:.85rem; color:var(--text); text-align:center; margin-top:8px; }
+    @media(max-width:900px){.polaroids{display:none}}
+
+    /* ── SHARED ── */
+    .s-tag { font-family:'Caveat',cursive; font-size:1.1rem; color:var(--green2); display:block; margin-bottom:10px; }
+    .s-title { font-family:'Playfair Display',serif; font-size:clamp(2rem,4vw,3rem); line-height:1.1; margin-bottom:36px; color:var(--dark); }
+    .s-title em { color:var(--green2); font-style:italic; }
+
+    /* ── BIO ── */
+    #bio { background:var(--cream); padding:90px 6vw; }
+    .bio-inner { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; max-width:1100px; margin:0 auto; }
+    .bio-text p { color:var(--muted); line-height:1.9; font-size:.97rem; margin-bottom:18px; }
+    .bio-text blockquote { font-family:'Playfair Display',serif; font-style:italic; font-size:1.15rem; color:var(--green); border-left:3px solid var(--green2); padding-left:16px; margin:24px 0; }
+
+    .stats-list { display:flex; flex-direction:column; gap:8px; }
+    .stat-row { display:flex; align-items:center; gap:20px; background:var(--warm); padding:20px 24px; border-radius:12px; transition:transform .2s; }
+    .stat-row:hover{transform:translateX(6px)}
+    .stat-num { font-family:'Playfair Display',serif; font-size:2.2rem; color:var(--green2); min-width:90px; line-height:1; }
+    .stat-desc { font-size:.88rem; color:var(--muted); line-height:1.4; }
+    .stat-desc strong { color:var(--text); font-weight:500; display:block; }
+
+    @media(max-width:768px){ .bio-inner{grid-template-columns:1fr;gap:40px} }
+
+    /* ── SUPER BOWL FEATURE ── */
+    #superbowl {
+      background:var(--dark); padding:80px 6vw;
+      position:relative; overflow:hidden;
+    }
+    #superbowl::before {
+      content:'🏈';
+      position:absolute; right:-30px; top:40px;
+      font-size:18rem; opacity:.04; pointer-events:none;
+      line-height:1;
+    }
+    #superbowl .s-title { color:var(--cream); }
+    #superbowl .s-tag { color:var(--green3); }
+
+    .sb-inner { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start; max-width:1100px; margin:0 auto; }
+    .sb-embed { position:relative; padding-top:56.25%; border-radius:16px; overflow:hidden; }
+    .sb-embed iframe { position:absolute; inset:0; width:100%; height:100%; border:none; }
+    .sb-text { display:flex; flex-direction:column; gap:16px; }
+    .sb-text p { color:rgba(240,235,213,.7); line-height:1.8; font-size:.95rem; }
+    .sb-badge {
+      display:inline-block; background:var(--green2); color:#fff;
+      font-family:'Caveat',cursive; font-size:1.1rem;
+      padding:8px 18px; border-radius:50px; margin-bottom:8px;
+      width:fit-content;
+    }
+    .sb-facts { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; }
+    .sb-fact { background:rgba(255,255,255,.05); border-radius:10px; padding:14px 16px; border-left:2px solid var(--green2); }
+    .sb-fact-num { font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--green3); }
+    .sb-fact-label { font-size:.75rem; color:rgba(180,210,190,.6); margin-top:2px; }
+
+    @media(max-width:768px){ .sb-inner{grid-template-columns:1fr} }
+
+    /* ── VIDEOS ── */
+    #videos { background:#1A3326; padding:80px 6vw; }
+    #videos .s-tag { color:var(--green3); }
+    #videos .s-title { color:var(--cream); }
+    .videos-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px; }
+
+    .vid-card { background:#0F1F14; border-radius:16px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,.3); transition:transform .3s, box-shadow .3s; }
+    .vid-card:hover { transform:translateY(-5px); box-shadow:0 16px 40px rgba(0,0,0,.4); }
+    .vid-embed { position:relative; padding-top:56.25%; }
+    .vid-embed iframe { position:absolute; inset:0; width:100%; height:100%; border:none; }
+    .vid-info { padding:16px 20px 20px; border-top:2px solid var(--green2); }
+    .vid-name { font-family:'Playfair Display',serif; font-style:italic; font-size:1.05rem; color:var(--cream); margin-bottom:4px; }
+    .vid-meta { font-size:.78rem; color:var(--green3); }
+
+    /* ── DISCO ── */
+    #discografia { background:var(--cream); padding:80px 6vw; }
+    .albums-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(175px,1fr)); gap:14px; max-width:1100px; margin:0 auto; }
+    .alb-tile { background:var(--warm); border-radius:14px; padding:22px; position:relative; overflow:hidden; transition:transform .3s, box-shadow .3s; }
+    .alb-tile:hover { transform:translateY(-4px); box-shadow:0 12px 30px rgba(0,0,0,.08); }
+    .alb-tile::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:var(--green2); border-radius:14px 14px 0 0; }
+    .alb-tile.orange::before{background:var(--orange)} .alb-tile.rust::before{background:var(--rust)}
+    .alb-year { font-family:'Caveat',cursive; font-size:.9rem; color:var(--green2); margin-bottom:6px; }
+    .alb-name { font-family:'Playfair Display',serif; font-size:1rem; font-style:italic; line-height:1.3; color:var(--dark); margin-bottom:4px; }
+    .alb-type { font-size:.75rem; color:var(--muted); }
+
+    /* ── FOOTER ── */
+    footer { background:var(--dark); padding:44px 6vw; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; }
+    .footer-logo { font-family:'Playfair Display',serif; font-style:italic; font-size:1.6rem; color:var(--cream); }
+    .footer-logo em { color:var(--green3); font-style:normal; }
+    .footer-note { font-size:.8rem; color:var(--muted); }
+
+    @media(max-width:768px){
+      #bio,#superbowl,#videos,#discografia{ padding:60px 20px }
+      .hero-content{ padding:0 20px 60px }
+      footer{ padding:36px 20px }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-logo">Bad Bunny 🐰</div>
+  <ul class="nav-links">
+    <li><a href="#bio">Bio</a></li>
+    <li><a href="#superbowl">Super Bowl</a></li>
+    <li><a href="#videos">Videos</a></li>
+    <li><a href="#discografia">Discografía</a></li>
+  </ul>
+</nav>
+
+<!-- HERO — Baile Inolvidable de fondo -->
+<section id="hero">
+  <div class="hero-video-wrap">
+    <iframe
+src="https://www.youtube.com/embed/acEOASYioGY?autoplay=1&mute=1&loop=1&playlist=acEOASYioGY&controls=0"
+    title="Hero" allow="autoplay; encrypted-media" allowfullscreen>
+    </iframe>
+  </div>
+  <div class="hero-overlay"></div>
+
+  <div class="polaroids">
+    <div class="pol"><div class="pol-img">🌴</div><div class="pol-cap">Vega Baja, PR</div></div>
+    <div class="pol"><div class="pol-img">🎷</div><div class="pol-cap">salsa & dembow</div></div>
+    <div class="pol"><div class="pol-img">📷</div><div class="pol-cap">Debí Tirar Más Fotos</div></div>
+  </div>
+
+  <div class="hero-content">
+    <span class="hero-eyebrow">✦ El Conejo Malo ✦</span>
+    <h1 class="hero-title">Debí Tirar<br><em>Más Fotos</em></h1>
+    <p class="hero-sub">Vega Baja, Puerto Rico 🇵🇷</p>
+    <p class="hero-desc">El hombre que puso al mundo entero a cantar en español. Benito es más que música — es cultura, identidad y orgullo boricua que llegó al mismísimo Super Bowl.</p>
+    <a href="#videos" class="btn-main">🎵 Ver sus videos</a>
+  </div>
+</section>
+
+<!-- BIO -->
+<section id="bio">
+  <div class="bio-inner">
+    <div class="bio-text">
+      <span class="s-tag">✦ Quién es</span>
+      <h2 class="s-title">El chico del<br><em>supermercado</em><br>que lo cambió todo</h2>
+      <p>Benito Antonio Martínez Ocasio nació el 10 de marzo de 1994 en Vega Baja, Puerto Rico. Antes de ser la estrella global que conocemos, empacaba en un supermercado mientras subía canciones a SoundCloud desde su cuarto.</p>
+      <p>Su sonido mezcla trap, reggaetón, cumbia, bolero, plena y rock — rompiendo todas las reglas. Es el primer artista latino en liderar el Billboard Hot 100 con una canción completamente en español.</p>
+      <blockquote>"Debí Tirar Más Fotos" es una carta de amor a Puerto Rico — sus montañas, su gente y su resistencia.</blockquote>
+      <p>En febrero de 2026 protagonizó el halftime del Super Bowl LX, el primer latino en hacerlo en solitario y casi completamente en español, ante 128 millones de espectadores.</p>
+    </div>
+    <div class="stats-list">
+      <div class="stat-row">
+        <div class="stat-num">3×</div>
+        <div class="stat-desc"><strong>Artista #1 en Spotify</strong>el más escuchado del mundo tres años seguidos</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-num">#1</div>
+        <div class="stat-desc"><strong>Billboard Hot 100 en español</strong>primero en la historia del chart</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-num">128M</div>
+        <div class="stat-desc"><strong>Espectadores Super Bowl LX</strong>4to halftime más visto de la historia</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-num">2×</div>
+        <div class="stat-desc"><strong>Grammy 2026</strong>Álbum del año + Mejor Álbum Urbano</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUPER BOWL -->
+<section id="superbowl">
+  <div class="sb-inner">
+    <div class="sb-embed">
+      <!-- Super Bowl LX Halftime Show oficial en el canal de NFL/Apple Music -->
+      <iframe
+        src="https://www.youtube.com/embed/SFKLTYwS9Fg"
+        title="Bad Bunny Super Bowl LX Halftime Show"
+        allowfullscreen loading="lazy">
+      </iframe>
+    </div>
+    <div class="sb-text">
+      <span class="s-tag">✦ Historia</span>
+      <h2 class="s-title" style="color:var(--cream)">Super Bowl<br><em>LX — 2026</em></h2>
+      <div class="sb-badge">🏈 8 de febrero, 2026</div>
+      <p>El primer latino en protagonizar el halftime del Super Bowl en solitario y casi completamente en español. Levi's Stadium, Santa Clara, California.</p>
+      <p>Con invitados como Lady Gaga, Ricky Martin y apariciones de Pedro Pascal, Cardi B y Karol G. El escenario fue una "casita" puertorriqueña rodeada de caña de azúcar — una declaración política y cultural.</p>
+      <p>Terminó con el mensaje: <em style="color:var(--orange)">"The only thing more powerful than hate is love."</em></p>
+      <div class="sb-facts">
+        <div class="sb-fact"><div class="sb-fact-num">128M</div><div class="sb-fact-label">Espectadores TV</div></div>
+        <div class="sb-fact"><div class="sb-fact-num">4B</div><div class="sb-fact-label">Views redes sociales en 24h</div></div>
+        <div class="sb-fact"><div class="sb-fact-num">+35%</div><div class="sb-fact-label">Más alumnos de español en Duolingo</div></div>
+        <div class="sb-fact"><div class="sb-fact-num">#1</div><div class="sb-fact-label">Primer latino en hacerlo solo</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEOS DTMF -->
+<section id="videos">
+  <span class="s-tag">✦ Videoclips</span>
+  <h2 class="s-title">Sus mejores <em>videos</em></h2>
+  <div class="videos-grid">
+
+    <!-- 1. Baile Inolvidable -->
+    <div class="vid-card">
+      <div class="vid-embed">
+        <iframe src="https://www.youtube.com/embed/a1Femq4NPxs" title="Baile Inolvidable" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="vid-info">
+        <div class="vid-name">Baile Inolvidable</div>
+        <div class="vid-meta">Debí Tirar Más Fotos · 2025 · 254M vistas</div>
+      </div>
+    </div>
+
+    <!-- 2. NuevaYol -->
+    <div class="vid-card">
+      <div class="vid-embed">
+        <iframe src="https://www.youtube.com/embed/KU5V5WZVcVE" title="NuevaYol" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="vid-info">
+        <div class="vid-name">NuevaYol</div>
+        <div class="vid-meta">Debí Tirar Más Fotos · 2025 · 34M vistas</div>
+      </div>
+    </div>
+
+    <!-- 3. La Mudanza -->
+    <div class="vid-card">
+      <div class="vid-embed">
+        <iframe src="https://www.youtube.com/embed/qYAONSDnMrc" title="La Mudanza" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="vid-info">
+        <div class="vid-name">La Mudanza</div>
+        <div class="vid-meta">Debí Tirar Más Fotos · 2025 · Visualizer oficial</div>
+      </div>
+    </div>
+
+    <!-- 4. Tití Me Preguntó -->
+    <div class="vid-card">
+      <div class="vid-embed">
+        <iframe src="https://www.youtube.com/embed/Cr8K88UcO0s" title="Tití Me Preguntó" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="vid-info">
+        <div class="vid-name">Tití Me Preguntó</div>
+        <div class="vid-meta">Un Verano Sin Ti · 2022 · 1B+ vistas</div>
+      </div>
+    </div>
+
+    <!-- 5. Yonaguni -->
+    <div class="vid-card">
+      <div class="vid-embed">
+        <iframe src="https://www.youtube.com/embed/doLMt10ytHY" title="Yonaguni" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="vid-info">
+        <div class="vid-name">Yonaguni</div>
+        <div class="vid-meta">Sencillo · 2021 · 500M+ vistas</div>
+      </div>
+    </div>
+
+    <!-- 6. Dakiti bonus -->
+    <div class="vid-card">
+      <div class="vid-embed">
+        <iframe src="https://www.youtube.com/embed/TmKh7lAwnBI" title="Dakiti" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="vid-info">
+        <div class="vid-name">Dakiti ft. Jhay Cortez</div>
+        <div class="vid-meta">El Último Tour Del Mundo · 2020 · 1.5B vistas</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- DISCOGRAFÍA -->
+<section id="discografia">
+  <div style="max-width:1100px;margin:0 auto;">
+    <span class="s-tag">✦ Proyectos</span>
+    <h2 class="s-title">Su <em>discografía</em></h2>
+    <div class="albums-grid">
+      <div class="alb-tile"><div class="alb-year">2018</div><div class="alb-name">X 100PRE</div><div class="alb-type">Álbum de estudio</div></div>
+      <div class="alb-tile orange"><div class="alb-year">2019</div><div class="alb-name">OASIS</div><div class="alb-type">Colabo con J Balvin</div></div>
+      <div class="alb-tile rust"><div class="alb-year">2020</div><div class="alb-name">YHLQMDLG</div><div class="alb-type">Álbum de estudio</div></div>
+      <div class="alb-tile"><div class="alb-year">2020</div><div class="alb-name">Las que no iban a salir</div><div class="alb-type">Mixtape sorpresa</div></div>
+      <div class="alb-tile orange"><div class="alb-year">2020</div><div class="alb-name">El Último Tour Del Mundo</div><div class="alb-type">Álbum de estudio</div></div>
+      <div class="alb-tile rust"><div class="alb-year">2022</div><div class="alb-name">Un Verano Sin Ti</div><div class="alb-type">Grammy al Álbum del Año</div></div>
+      <div class="alb-tile"><div class="alb-year">2023</div><div class="alb-name">Nadie Sabe Lo que Va a Pasar Mañana</div><div class="alb-type">Álbum de estudio</div></div>
+      <div class="alb-tile orange"><div class="alb-year">2025</div><div class="alb-name">Debí Tirar Más Fotos</div><div class="alb-type">Grammy 2026 · Álbum del Año 🏆</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Bad <em>Bunny</em> 🐰</div>
+  <div class="footer-note">Fanpage no oficial · Hecho con amor desde México 🌮 · 2026</div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+  });
+</script>
+</body>
+</html>
